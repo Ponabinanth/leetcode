@@ -1,26 +1,21 @@
-import java.util.*;
-
-public class Solution {
+class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
-        generate("", 0, 0, n, result);
+        backtrack(result, "", 0, 0, n);
         return result;
     }
-    private void generate(String current, int open, int close, int n, List<String> result) {
-        if (current.length() == 2 * n) {
-            result.add(current); 
+    
+    private void backtrack(List<String> result, String current, int openCount, int closeCount, int n) {
+        if (openCount == n && closeCount == n) {
+            result.add(current);
             return;
         }
-        if (open < n) {
-            generate(current + "(", open + 1, close, n, result);
+        
+        if (openCount < n) {
+            backtrack(result, current + "(", openCount + 1, closeCount, n);
         }
-        if (close < open) {
-            generate(current + ")", open, close + 1, n, result);
+        if (closeCount < openCount) {
+            backtrack(result, current + ")", openCount, closeCount + 1, n);
         }
-    }
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.generateParenthesis(3));  
-        System.out.println(solution.generateParenthesis(1)); 
     }
 }
